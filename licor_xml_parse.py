@@ -70,6 +70,8 @@ portpath = "/dev/ttyUSB0" #modify this path to the name of the port. on Windows,
 ser = serial.Serial(portpath, timeout=1) #opens the serial port with the desired timeout 
 test = pd.DataFrame(columns= ["Datetime","co2","h2o","celltemp","cellpres"]) #initialize the df with desired columns
 
+export_interval = 1200 #20 minute interval
+
 while True: #loop continuously; we only exit out into this loop after exporting the last csv
 
     starttime = time.time() #initialize a new start time 
@@ -77,7 +79,7 @@ while True: #loop continuously; we only exit out into this loop after exporting 
     try: #this try-except allows the use of ctrl-C to interrupt the program. If you do, it will export the data in
          #buffer and stop. Then you'll have to restart it 
 
-        while (time.time() - starttime) < 10: #the value on the right of the inequality defines the time interval (in s) between file exports
+        while (time.time() - starttime) < export_interval: #the value on the right of the inequality defines the time interval (in s) between file exports
 
             line = ser.readline() #reads a line of the XML from the li-cor.
             soup = BeautifulSoup(line, "lxml") #converting the XML to an object for addl processing
@@ -100,7 +102,7 @@ while True: #loop continuously; we only exit out into this loop after exporting 
                 except:
                     celltemp = np.nan
                 try:
-                    cellpres = conv_str_to_exp(str(i.find("ccellpres").string)) 
+                    cellpres = conv_str_to_exp(str(i.find("cellpres").string)) 
                 except:
                     cellpres = np.nan
 
