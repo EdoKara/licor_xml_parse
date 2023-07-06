@@ -31,7 +31,7 @@ def conv_str_to_exp(inputstr): #useful function, converts from 1.0380e-2 format 
             exp = float(exp)
             preexp = float(preexp)
 
-        return(preexp**exp)
+        return(preexp*(10**exp))
 
     elif type(inputstr) is list:
         exp = []
@@ -90,18 +90,22 @@ while True: #loop continuously; we only exit out into this loop after exporting 
             for i in subset: #iterate over the subsets in the <data> tag
                 #testing every conversion for a nonetype error;
                 try:
+                    # co2 = str(i.find("co2").string)
                     co2 = conv_str_to_exp(str(i.find("co2").string)) 
                 except: #all try/excepts are the same; if the conversion fails return nan.
                     co2 = np.nan
                 try:
+                    # h2o = str(i.find("h2o").string)
                     h2o = conv_str_to_exp(str(i.find("h2o").string)) 
                 except:
                     h2o = np.nan
                 try:
+                    # celltemp = str(i.find("celltemp").string)
                     celltemp = conv_str_to_exp(str(i.find("celltemp").string)) 
                 except:
                     celltemp = np.nan
                 try:
+                    # cellpres = str(i.find("cellpres").string)
                     cellpres = conv_str_to_exp(str(i.find("cellpres").string)) 
                 except:
                     cellpres = np.nan
@@ -119,7 +123,7 @@ while True: #loop continuously; we only exit out into this loop after exporting 
                 #print(test) #diagnostic print to see that things are working OK
 
 
-            time.sleep(0.9) #sleep 0.9s and do it over again. 
+            time.sleep(1) #sleep 0.9s and do it over again. 
 
         export_file_now(csv=test, filepath="/home/ab/Desktop/licor_outfiles/")
         print("Exported Successfully!")
