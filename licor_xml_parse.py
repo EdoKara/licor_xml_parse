@@ -66,7 +66,7 @@ def export_file_now(csv:pd.DataFrame, filepath:str): #quick macro; edit if you n
 
 
 portpath = "/dev/ttyUSB0" #modify this path to the name of the port. on Windows, it would be COM1, COM2, etc.
-
+filepath="/home/ab/Desktop/licor_outfiles/"
 ser = serial.Serial(portpath, timeout=1) #opens the serial port with the desired timeout 
 test = pd.DataFrame(columns= ["Datetime","co2","h2o","celltemp","cellpres"]) #initialize the df with desired columns
 
@@ -125,11 +125,11 @@ while True: #loop continuously; we only exit out into this loop after exporting 
 
             time.sleep(1) #sleep 0.9s and do it over again. 
 
-        export_file_now(csv=test, filepath="/home/ab/Desktop/licor_outfiles/")
+        export_file_now(csv=test, filepath=filepath)
         print("Exported Successfully!")
     
     except KeyboardInterrupt:
-        export_file_now(csv=test, filepath="/home/ab/Desktop/licor_outfiles/")
+        export_file_now(csv=test, filepath=filepath)
         print("\n exported successfully!")
         print("quitting.")
         exit()
